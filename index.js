@@ -14,13 +14,16 @@ const engine = new StoreEngine.FileEngine(path, {fileExtension: '.json'});
 const bot = new Account(login, engine);
 
 bot.on(Account.INCOMING.TEXT_MESSAGE, ({conversation, content}) => {
-  if (content.startsWith('/')) {
-    const command = content.substr(content.indexOf('/')).toLowerCase();
+  const sequence = '/';
+
+  if (content.startsWith(sequence)) {
+    const begin = content.indexOf(sequence) + sequence.length;
+    const command = content.substr(begin).toLowerCase();
     const turnOn = (command === 'on') ? true : false;
     if (turnOn) {
-      bot.sendTextMessage(conversation, 'LICHT AN!');
+      bot.sendTextMessage(conversation, 'Light on!');
     } else {
-      bot.sendTextMessage(conversation, 'LICHT AUS!');
+      bot.sendTextMessage(conversation, 'Light off!');
     }
   }
 });
