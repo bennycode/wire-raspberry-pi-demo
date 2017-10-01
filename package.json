@@ -1,7 +1,8 @@
 {
   "dependencies": {
     "@wireapp/core": "0.0.3",
-    "optimist": "0.6.1"
+    "optimist": "0.6.1",
+    "wiring-pi": "^2.2.1"
   },
   "main": "index.js",
   "name": "wire-raspberry-pi-demo",
