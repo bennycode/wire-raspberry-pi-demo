@@ -1,14 +1,13 @@
 const argv = require('optimist').alias('e', 'email').alias('p', 'password').argv;
-const wpi = require('wiring-pi');
+const rpio = require('rpio');
 
 // Setup PIN
 const GPIO_PIN = 7; // "GPCLK0"
-wpi.setup('wpi');
-wpi.pinMode(GPIO_PIN, wpi.OUTPUT);
+rpio.open(GPIO_PIN, rpio.OUTPUT, rpio.LOW);
 
 function lightOn(turnOn) {
-  const state = (turnOn) ? wpi.HIGH : wpi.LOW;
-  wpi.digitalWrite(GPIO_PIN, state);
+  const value = (turnOn) ? rpio.HIGH : rpio.LOW;
+  rpio.write(GPIO_PIN, value);
 }
 
 // Setup Wire
