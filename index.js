@@ -1,5 +1,17 @@
 const argv = require('optimist').alias('e', 'email').alias('p', 'password').argv;
+const wpi = require('wiring-pi');
 
+// Setup PIN
+const GPIO_PIN = 7; // "GPCLK0"
+wpi.setup('wpi');
+wpi.pinMode(GPIO_PIN, wpi.OUTPUT);
+
+function lightOn(turnOn) {
+  const state = (turnOn) ? wpi.HIGH : wpi.LOW;
+  wpi.digitalWrite(GPIO_PIN, state);
+}
+
+// Setup Wire
 const {Account} = require('@wireapp/core');
 const {StoreEngine} = require('@wireapp/store-engine');
 
@@ -15,16 +27,12 @@ const bot = new Account(login, engine);
 
 bot.on(Account.INCOMING.TEXT_MESSAGE, ({conversation, content}) => {
   const sequence = '/';
-
+  
   if (content.startsWith(sequence)) {
     const begin = content.indexOf(sequence) + sequence.length;
     const command = content.substr(begin).toLowerCase();
     const turnOn = (command === 'on') ? true : false;
-    if (turnOn) {
-      bot.sendTextMessage(conversation, 'Light on!');
-    } else {
-      bot.sendTextMessage(conversation, 'Light off!');
-    }
+    lightOn(turnOn);
   }
 });
 
