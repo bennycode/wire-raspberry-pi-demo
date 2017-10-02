@@ -32,6 +32,7 @@ bot.on(Account.INCOMING.TEXT_MESSAGE, ({conversation, content}) => {
     const command = content.substr(begin).toLowerCase();
     const turnOn = (command === 'on') ? true : false;
     lightOn(turnOn);
+    bot.sendTextMessage(conversation, `Turned lights ${command}.`);
   }
 });
 
